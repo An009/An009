@@ -2,8 +2,9 @@ name: An009 Daily Commits
 
 on:
   schedule:
-    # Runs at 06:00, 12:00, 18:00, and 00:00 (Midnight) UTC
-    - cron: '0 6,12,18,0 * * *'
+    # This runs at the 0th minute (on the hour) of every 2nd hour.
+    # It will run at 00:00, 02:00, 04:00, 06:00, 08:00, 10:00, 12:00, etc., UTC.
+    - cron: '0 */2 * * *'
 
 jobs:
   commit:
@@ -18,7 +19,7 @@ jobs:
           DATE=$(date '+%Y-%m-%d %H:%M:%S')
           echo "Automated commit at: $DATE" >> commit_log.txt
           
-          # 2. Configure Git user (required by GitHub Actions bot)
+          # 2. Configure Git user (required by github actions)
           git config --global user.name "An009"
           git config --global user.email "kreechanouar@gmail.com"
           
