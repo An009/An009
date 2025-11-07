@@ -19,8 +19,8 @@ jobs:
           echo "Automated commit at: $DATE" >> commit_log.txt
           
           # 2. Configure Git user 
-          git config --global user.name "Your Name"
-          git config --global user.email "your-email@example.com"
+          git config --global user.name "An009"
+          git config --global user.email "kreechanouar@gmail.com"
           
           # 3. Commit and Push
           git add commit_log.txt
