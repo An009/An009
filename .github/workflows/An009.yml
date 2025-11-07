@@ -1,10 +1,9 @@
-name: An009 Daily Commits
+name: An009 Ten Daily Commits
 
 on:
   schedule:
-    # This runs at the 0th minute (on the hour) of every 2nd hour.
-    # It will run at 00:00, 02:00, 04:00, 06:00, 08:00, 10:00, 12:00, etc., UTC.
-    - cron: '0 */2 * * *'
+    # Runs 10 times a day at the 0th minute of the specified hours UTC.
+    - cron: '0 0,2,5,7,9,12,14,16,19,21 * * *' 
 
 jobs:
   commit:
@@ -19,11 +18,12 @@ jobs:
           DATE=$(date '+%Y-%m-%d %H:%M:%S')
           echo "Automated commit at: $DATE" >> commit_log.txt
           
-          # 2. Configure Git user (required by github actions)
-          git config --global user.name "An009"
-          git config --global user.email "kreechanouar@gmail.com"
+          # 2. Configure Git user 
+          git config --global user.name "Your Name"
+          git config --global user.email "your-email@example.com"
           
-          # 3. Commit and Push (only if there are changes)
+          # 3. Commit and Push
           git add commit_log.txt
-          git commit -m "Automated hourly update: $DATE" || echo "No changes to commit"
+          # The "|| echo" prevents the workflow from failing if there are no changes
+          git commit -m "Automated 10x daily update: $DATE" || echo "No changes to commit"
           git push
