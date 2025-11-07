@@ -1,0 +1,28 @@
+name: An009 Daily Commits
+
+on:
+  schedule:
+    # Runs at 06:00, 12:00, 18:00, and 00:00 (Midnight) UTC
+    - cron: '0 6,12,18,0 * * *'
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate Content & Commit
+        run: |
+          # 1. Create/Update a file with new content (e.g., current timestamp)
+          DATE=$(date '+%Y-%m-%d %H:%M:%S')
+          echo "Automated commit at: $DATE" >> commit_log.txt
+          
+          # 2. Configure Git user (required by GitHub Actions bot)
+          git config --global user.name "An009"
+          git config --global user.email "kreechanouar@gmail.com"
+          
+          # 3. Commit and Push (only if there are changes)
+          git add commit_log.txt
+          git commit -m "Automated hourly update: $DATE" || echo "No changes to commit"
+          git push
