@@ -3,7 +3,7 @@ name: An009 Ten Daily Commits
 on:
   schedule:
     # Runs 10 times a day at the 0th minute of the specified hours UTC.
-    - cron: '0 0,2,5,7,9,12,14,16,19,21 * * *' 
+    - cron: '0 */2 * * *'
 
 jobs:
   commit:
