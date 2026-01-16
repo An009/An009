@@ -1,9 +1,10 @@
-name: An009 Ten Daily Commits
+name: An009 Variable Daily Commits
 
 on:
   schedule:
-    # Runs 10 times a day at the 0th minute of the specified hours UTC.
-    - cron: '0 */2 * * *'
+    # Runs once a day at 00:00 UTC to process the batch
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Allows you to run it manually for testing
 
 jobs:
   commit:
@@ -12,18 +13,31 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Generate Content & Commit
+      - name: Generate Variable Commits
         run: |
-          # 1. Create/Update a file with new content (e.g., current timestamp)
-          DATE=$(date '+%Y-%m-%d %H:%M:%S')
-          echo "Automated commit at: $DATE" >> commit_log.txt
+          # 1. Define the possible commit counts
+          NUMBERS=(7 8 11)
           
-          # 2. Configure Git user 
+          # 2. Pick one number randomly from the list
+          TARGET=${NUMBERS[$RANDOM % ${#NUMBERS[@]}]}
+          echo "Today's target: $TARGET commits"
+
+          # 3. Configure Git
           git config --global user.name "An009"
           git config --global user.email "kreechanouar@gmail.com"
-          
-          # 3. Commit and Push
-          git add commit_log.txt
-          # The "|| echo" prevents the workflow from failing if there are no changes
-          git commit -m "Automated 10x daily update: $DATE" || echo "No changes to commit"
+
+          # 4. Loop to create the commits
+          for ((i=1; i<=TARGET; i++))
+          do
+            DATE=$(date '+%Y-%m-%d %H:%M:%S')
+            echo "Commit $i of $TARGET at $DATE" >> commit_log.txt
+            
+            git add commit_log.txt
+            git commit -m "Automated update $i/$TARGET: $DATE"
+            
+            # Small sleep to ensure unique timestamps
+            sleep 1 
+          done
+
+          # 5. Push all commits at once
           git push
