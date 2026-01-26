@@ -2,7 +2,7 @@ name: An009 Variable Daily Commits
 
 on:
   schedule:
-    # Runs once a day at 00:00 UTC to process the batch
+    # Runs once a day at 00:00 UTC
     - cron: '0 0 * * *'
   workflow_dispatch: # Allows you to run it manually for testing
 
@@ -15,8 +15,8 @@ jobs:
 
       - name: Generate Variable Commits
         run: |
-          # 1. Define the possible commit counts
-          NUMBERS=(7 8 11)
+          # 1. Define your new specific commit counts
+          NUMBERS=(10 12 13 14)
           
           # 2. Pick one number randomly from the list
           TARGET=${NUMBERS[$RANDOM % ${#NUMBERS[@]}]}
